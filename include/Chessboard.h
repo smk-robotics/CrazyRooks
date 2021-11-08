@@ -11,26 +11,28 @@
 #include "Square.h"
 #include <array>
 #include <vector>
+#include <unordered_map>
 #include <memory>
 
 constexpr uint8_t CHESS_BOARD_WIDTH  = 8;
 constexpr uint8_t CHESS_BOARD_HEIGHT = 8;
 
-namespace crazy_chess_towers {
+namespace crazy_rooks {
 
 class Chessboard {
 public:
   Chessboard();
-  bool addFigure(const Square &figurePosition, const FigureType figureType) noexcept;
+  bool addFigure(Square &figurePosition, const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   void drawBoard() const noexcept;
-  std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> squares() noexcept;
-  std::vector<std::shared_ptr<AbstractFigure>> figures() noexcept;
+  std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> *squares() noexcept;
+  std::unordered_map<uint8_t, std::shared_ptr<AbstractFigure>> *figures() noexcept;
+
 private:  
   void colorizeBoard_() noexcept;
 
 private:
   std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> squares_;
-  std::vector<std::shared_ptr<AbstractFigure>> figures_;
+  std::unordered_map<uint8_t, std::shared_ptr<AbstractFigure>> figures_;
 };
 
 } // namespace crazy_chess_towers

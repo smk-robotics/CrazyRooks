@@ -3,13 +3,13 @@
 #include "AbstractFigure.h"
 #include "Square.h"
 
-namespace crazy_chess_towers {
+namespace crazy_rooks {
 
-class TowerFigure : public AbstractFigure {
+class RookFigure : public AbstractFigure {
 public:
-  TowerFigure();
+  RookFigure();
   bool move() noexcept override final;
-  ~TowerFigure() = default;
+  ~RookFigure() = default;
 };
 
 } // namespace crazy_chess_towers

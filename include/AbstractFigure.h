@@ -2,9 +2,13 @@
 
 #include <memory>
 
-namespace crazy_chess_towers {
+namespace crazy_rooks {
 
-enum FigureType {
+/**
+ * @brief Class for chess figure type definition.
+ */
+enum class FigureType {
+  NONE = -1,
   TOWER = 0
 };
 
@@ -19,10 +23,12 @@ public:
   virtual bool move() = 0;
   char symbol() const noexcept;
   FigureType type() const noexcept;
+  uint8_t id() const noexcept;
   virtual ~AbstractFigure() = default;
 protected:
-  FigureType type_;
+  static uint8_t id_;
   char figureSymbol_ = ' ';
+  FigureType type_ = FigureType::NONE;
   std::shared_ptr<Square> square_;
 };
 

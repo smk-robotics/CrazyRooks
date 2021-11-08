@@ -17,7 +17,7 @@ constexpr const char* RESET_STYLE        = "\033[0m";
 
 } // namespace 
 
-namespace crazy_chess_towers {
+namespace crazy_rooks {
 
 Square::Square(const SquareColor &color) 
   : color_(color) {}
@@ -26,17 +26,26 @@ SquareColor Square::color() const noexcept {
   return color_;
 }
 
+std::shared_ptr<AbstractFigure> Square::figure() noexcept {
+  return figure_;
+}
+
 bool Square::isEmpty() const noexcept {
   return figure_ == nullptr;
 }
 
-bool Square::setFigure(std::shared_ptr<AbstractFigure> &figure) noexcept {
-  figure_ = figure;
+bool Square::setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
+  if (figure_ != nullptr) {
+    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. Square already has a figure." << std::endl;
+    return false;
+  }
+  figure_ = figurePtr;
+  return true;
 }
  
 std::ostream& operator<<(std::ostream &os, const Square &square) {
   switch (square.color()) {
-  case BLACK:
+  case SquareColor::BLACK:
     os << BLACK_SQUARE_STYLE << " ";
     if (square.figure_) {
        os << square.figure_->symbol();
@@ -45,7 +54,7 @@ std::ostream& operator<<(std::ostream &os, const Square &square) {
     }
     os << " " << RESET_STYLE;
     break;
-  case WHITE:
+  case SquareColor::WHITE:
     os << WHITE_SQUARE_STYLE << " ";
     if (square.figure_) {
        os << square.figure_->symbol();

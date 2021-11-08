@@ -10,9 +10,12 @@
 #include "AbstractFigure.h"
 #include <iostream>
 
-namespace crazy_chess_towers {
+namespace crazy_rooks {
 
-enum SquareColor {
+/**
+ * @brief Class for single chessboard square color type definition.
+ */
+enum class SquareColor {
   NONE = -1,
   BLACK = 0,
   WHITE = 1
@@ -23,11 +26,13 @@ public:
   Square() = default;
   Square(const SquareColor &color);
   SquareColor color() const noexcept;
+  std::shared_ptr<AbstractFigure> figure() noexcept;
   bool isEmpty() const noexcept;
-  bool setFigure(std::shared_ptr<AbstractFigure> &figure) noexcept;
+  bool setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   friend std::ostream& operator<<(std::ostream &os, const Square &square);
+  
 private:
-  SquareColor color_ = NONE;
+  SquareColor color_ = SquareColor::NONE;
   std::shared_ptr<AbstractFigure> figure_;
 };
 
