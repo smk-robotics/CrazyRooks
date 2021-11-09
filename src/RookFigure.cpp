@@ -3,10 +3,12 @@
 
 namespace crazy_rooks {
 
-RookFigure::RookFigure() {
+RookFigure::RookFigure(const Chessboard &board) {
   type_ = FigureType::TOWER;
   figureSymbol_ = 'X';
   ++id_;
+  // chessboard_ = std::make_shared<Chessboard>(board);
+  // auto tmp = std::shared_ptr<Chessboard>(board);
   std::srand(std::time(nullptr));
 }
 

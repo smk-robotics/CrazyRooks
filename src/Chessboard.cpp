@@ -6,38 +6,35 @@
  * @copyright GNU General Public License v3.0.
  * 
  */
-#include <iostream>
-#include "Chessboard.h"
 #include "AbstractFigure.h"
+#include "Chessboard.h"
+#include <iostream>
 
 namespace crazy_rooks {
 
-Chessboard::Chessboard() {
-  colorizeBoard_();
-}
-
-bool Chessboard::addFigure(Square &square, const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
-  if (!square.isEmpty()) {
-    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Square is not empty." << std::endl;
-    return false;
-  }
-  if (!square.setFigure(figurePtr)) {
-    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
-    return false;
-  }
-  if (figures_.find(figurePtr->id()) != figures_.end()) {
+bool Chessboard::addFigure(const SquareCoordinates &position, const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
+  if (figures_.find(figurePtr) != figures_.end()) {
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Duplicate figure id." << std::endl;
     return false;
   }
-  figures_.insert(std::make_pair(figurePtr->id(), figurePtr));
+  if (!squares_.at(position.column())[position.row()].isEmpty()) {
+    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Square is not empty." << std::endl;
+    return false;
+  }
+  if (!squares_.at(position.column())[position.row()].setFigure(figurePtr)) {
+    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
+    return false;
+  }
+  figurePtr->setFigureToSquare(std::make_shared<Square>(squares_.at(position.column())[position.row()]));
+  figures_.emplace(figurePtr);
   return true;
 }
 
-std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT>*Chessboard::squares() noexcept {
+std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> *Chessboard::squares() noexcept {
   return &squares_;
 }
 
-std::unordered_map<uint8_t, std::shared_ptr<AbstractFigure>> *Chessboard::figures() noexcept {
+std::unordered_set<std::shared_ptr<AbstractFigure>,AbstractFigure::FigureHashFunction> *Chessboard::figures() noexcept {
   return &figures_;
 }
 
@@ -52,17 +49,5 @@ void Chessboard::drawBoard() const noexcept {
   }
   std::cout << "   A  B  C  D  E  F  G  H " << std::endl;
 }
-
-void Chessboard::colorizeBoard_() noexcept {
-  for (auto row = 0; row < CHESS_BOARD_WIDTH; ++row) {
-    for (auto col = 0; col < CHESS_BOARD_HEIGHT; ++col) {
-      if ((col + row) % 2 == 0) {
-        squares_[row][col] = Square(SquareColor::WHITE);
-      } else {
-        squares_[row][col] = Square(SquareColor::BLACK);
-      }
-    }
-  }
-} 
 
 } // namespace crazy_chess_towers
