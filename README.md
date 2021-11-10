@@ -1,2 +1,4 @@
-# CrazyChessTowers
-Repository with "crazy chess towers" task.
+# CrazyRooks
+
+Repository with simple multithreading moving crazy chess rooks console 
+application.
