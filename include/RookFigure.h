@@ -16,7 +16,7 @@ namespace crazy_rooks {
  */
 class RookFigure : public AbstractFigure {
 public:
-  RookFigure(const Chessboard &board);
+  RookFigure(const std::shared_ptr<Chessboard> &board);
   bool move() noexcept override final;
   /**
    * @brief Default destructor the Rook Figure object.

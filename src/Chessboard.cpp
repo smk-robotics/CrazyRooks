@@ -25,6 +25,7 @@ bool Chessboard::addFigure(const SquareCoordinates &position, const std::shared_
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
     return false;
   }
+  figurePtr->square() = std::make_shared<Square>(squares_.at(position.column())[position.row()]);
   figurePtr->setFigureToSquare(std::make_shared<Square>(squares_.at(position.column())[position.row()]));
   figures_.emplace(figurePtr);
   return true;

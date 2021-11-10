@@ -50,6 +50,11 @@ public:
    */
   bool setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   /**
+   * @brief Remove figure from square.
+   * @details Set figure pointer to nullptr.
+   */
+  void removeFigure() noexcept;
+  /**
    * @brief Getter for square color.
    * @return SquareColor Color of square - BLACK or WHITE.
    */

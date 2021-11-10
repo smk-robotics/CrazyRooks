@@ -53,6 +53,10 @@ bool Square::setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcep
   return true;
 }
  
+void Square::removeFigure() noexcept {
+  figure_ = nullptr;
+}
+
 SquareColor Square::color() const noexcept {
   return color_;
 }
