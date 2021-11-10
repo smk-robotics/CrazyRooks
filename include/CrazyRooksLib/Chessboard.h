@@ -12,6 +12,10 @@
 #include <unordered_set>
 
 namespace crazy_rooks {
+
+#define FiguresSet std::unordered_set<std::shared_ptr<AbstractFigure>, AbstractFigure::FigureHashFunction>
+#define SquaresArray std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT>
+
 /**
  * @brief Forward declaraion for AbstractFigure class to resolve headers 
  * circular dependency problem.
@@ -20,20 +24,20 @@ class AbstractFigure;
 /**
  * @brief Chessboar class.
  */
-class Chessboard {
+class Chessboard : public std::enable_shared_from_this<Chessboard> {
 public:
   /**
    * @brief Defult constructor for new Chessboard object.
    */
-  Chessboard() = default;
-  bool addFigure(const SquareCoordinates &position, const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
+  Chessboard();
+  bool addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   void drawBoard() const noexcept;
-  std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> *squares() noexcept;
-  std::unordered_set<std::shared_ptr<AbstractFigure>, AbstractFigure::FigureHashFunction> *figures() noexcept;
+  SquaresArray* squares() noexcept;
+  FiguresSet* figures() noexcept;
 
 private:
-  std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT> squares_;
-  std::unordered_set<std::shared_ptr<AbstractFigure>, AbstractFigure::FigureHashFunction> figures_;
+  SquaresArray squares_;
+  FiguresSet figures_;
 };
 
 } // namespace crazy_chess_towers

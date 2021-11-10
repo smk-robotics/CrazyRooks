@@ -22,7 +22,8 @@ namespace crazy_rooks {
 uint8_t Square::row_ = 0;
 uint8_t Square::col_ = 0;
 
-Square::Square() {
+Square::Square(Chessboard *board) 
+  : chessboard_(board) {
   if (row_ > CHESS_BOARD_HEIGHT) {
     throw std::logic_error("[ERROR][Square] - Can't create square. It's out of chessboard!");
   }
@@ -31,7 +32,6 @@ Square::Square() {
     ++row_;
   }
   coordinates_ = std::make_shared<SquareCoordinates>(row_, col_);
-  
   if ((row_ + col_) % 2 == 0) {
     color_ = SquareColor::WHITE;
   } else {
@@ -53,6 +53,10 @@ bool Square::setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcep
   return true;
 }
  
+Chessboard* Square::chessboard() const noexcept {
+  return chessboard_;
+}
+
 void Square::removeFigure() noexcept {
   figure_ = nullptr;
 }
@@ -71,27 +75,27 @@ std::shared_ptr<AbstractFigure> Square::figure() noexcept {
 
 std::ostream& operator<<(std::ostream &os, const Square &square) {
   switch (square.color()) {
-  case SquareColor::BLACK:
-    os << BLACK_SQUARE_STYLE << " ";
-    if (square.figure_) {
-       os << square.figure_->symbol();
-    } else {
-      os << " ";
-    }
-    os << " " << RESET_STYLE;
-    break;
-  case SquareColor::WHITE:
-    os << WHITE_SQUARE_STYLE << " ";
-    if (square.figure_) {
-       os << square.figure_->symbol();
-    } else {
-      os << " ";
-    }
-    os << " " << RESET_STYLE;
-    break;
-  default:
-    throw std::invalid_argument("[ERROR][Square] - Square color is not set!");
-    break;
+    case SquareColor::BLACK:
+      os << BLACK_SQUARE_STYLE << " ";
+      if (square.figure_) {
+         os << square.figure_->symbol();
+      } else {
+        os << " ";
+      }
+      os << " " << RESET_STYLE;
+      break;
+    case SquareColor::WHITE:
+      os << WHITE_SQUARE_STYLE << " ";
+      if (square.figure_) {
+         os << square.figure_->symbol();
+      } else {
+        os << " ";
+      }
+      os << " " << RESET_STYLE;
+      break;
+    default:
+      throw std::invalid_argument("[ERROR][Square] - Square color is not set!");
+      break;
   }  
 }
 

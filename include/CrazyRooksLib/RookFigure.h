@@ -16,12 +16,16 @@ namespace crazy_rooks {
  */
 class RookFigure : public AbstractFigure {
 public:
-  RookFigure(const std::shared_ptr<Chessboard> &board);
-  bool move() noexcept override final;
+  RookFigure(Square *square);
+  void move() noexcept override final;
+  void startRandomMove(int count) noexcept override final;
   /**
    * @brief Default destructor the Rook Figure object.
    */
   ~RookFigure() = default;
+
+private:
+  void setupSquare_(const uint8_t row, const uint8_t col) noexcept;
 };
 
 } // namespace crazy_chess_towers

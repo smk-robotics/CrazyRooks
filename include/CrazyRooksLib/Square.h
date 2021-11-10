@@ -7,8 +7,8 @@
  */
 #pragma once
 
-#include "AbstractFigure.h"
 #include "SquareCoordinates.h"
+#include "AbstractFigure.h"
 #include <memory>
 
 constexpr uint8_t CHESS_BOARD_WIDTH  = 8;
@@ -19,14 +19,13 @@ namespace crazy_rooks {
  * @brief Class for single chessboard square color type definition.
  */
 enum class SquareColor {
+  NONE = -1,
   BLACK = 0,
   WHITE = 1
 };
-/**
- * @brief Forward declaraion for AbstractFigure class to resolve headers 
- * circular dependency problem.
- */
-class AbstractFigure; 
+
+class Chessboard;
+
 /**
  * @brief Single chessboard square class.
  */
@@ -35,7 +34,8 @@ public:
   /**
  * @brief Constructor for new Square object.
  */
-  Square();
+  Square() = default;
+  Square(Chessboard *board);
   /**
    * @brief Checks that square is no occupied by any figure.
    * @return true If square is empty.
@@ -59,6 +59,7 @@ public:
    * @return SquareColor Color of square - BLACK or WHITE.
    */
   SquareColor color() const noexcept;
+  Chessboard* chessboard() const noexcept;
   /**
    * @brief Getter for square coordinates on chessboard.
    * @return std::shared_ptr<SquareCoordinates> Pointer to object with square 
@@ -82,7 +83,8 @@ public:
 private:
   static uint8_t row_;
   static uint8_t col_;
-  SquareColor color_;
+  SquareColor color_ = SquareColor::NONE;
+  Chessboard *chessboard_;
   std::shared_ptr<SquareCoordinates> coordinates_;
   std::shared_ptr<AbstractFigure> figure_;
 };
