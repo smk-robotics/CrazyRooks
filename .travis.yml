@@ -3,14 +3,18 @@ dist: bionic
 language: cpp
 compiler: gcc
 
+install:
+  - cd third-party && ./build_third_party.sh && cd -
+  - mkdir -p build && cd build
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON ..
+  - cmake --build . --target all
+
+script:
+  script:
+  - export GTEST_COLOR=1
+  - ctest --output-on-failure --verbose
 
 notifications:
   email:
     on_success: never
     on_failure: always
-
-script:
-  - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON ..
-  - cmake --build .
-  - ctest --output-on-failure --verbose
