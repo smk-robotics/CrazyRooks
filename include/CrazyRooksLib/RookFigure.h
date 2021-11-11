@@ -25,6 +25,7 @@ public:
   ~RookFigure() = default;
 
 private:
+  bool pathIsClear_(const uint8_t row, const uint8_t col) const noexcept;
   void setupSquare_(const uint8_t row, const uint8_t col) noexcept;
 };
 

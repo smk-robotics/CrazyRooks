@@ -36,7 +36,8 @@ public:
   virtual ~AbstractFigure() = default;
   
 protected:
-  static uint8_t id_;
+  static uint8_t totalFiguresID_;
+  uint8_t id_;
   char figureSymbol_ = ' ';
   FigureType type_ = FigureType::NONE;
   Square* square_;

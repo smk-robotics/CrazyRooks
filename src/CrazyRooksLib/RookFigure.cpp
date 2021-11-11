@@ -1,7 +1,6 @@
 #include "RookFigure.h"
 #include "Chessboard.h"
 #include <chrono>
-#include <iostream>
 #include <thread>
 
 namespace crazy_rooks {
@@ -20,18 +19,19 @@ enum class MoveDirection {
 };
 
 RookFigure::RookFigure(Square *square) {
-  if (!square->isEmpty()) {
-    std::invalid_argument("[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty.");
+  if (square->isEmpty()) {
+    square_ = square;
+    figureSymbol_ = 'X';
+    type_ = FigureType::TOWER;
+    id_ = ++totalFiguresID_;
+  } else {
+    std::logic_error("[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty.");
   }
-  square_ = square;
-  figureSymbol_ = 'X';
-  type_ = FigureType::TOWER;
-  ++id_;
 }
 
 void RookFigure::move() noexcept {
   const auto current_column = square_->coordinates()->column();
-  const auto current_row = square_->coordinates()->row();
+  const auto current_row    = square_->coordinates()->row();
   bool moveDone = false;
   while (!moveDone) {
     MoveDirection direction = static_cast<MoveDirection>(std::rand() % 2);
@@ -41,9 +41,11 @@ void RookFigure::move() noexcept {
         if (newCoordinate == current_row) {
           break;
         }
+        
         if (!square_->chessboard()->squares()->at(newCoordinate)[current_column].isEmpty()) {
           break;
         }
+
         setupSquare_(newCoordinate, current_column);
         moveDone = true;
         break;
@@ -51,6 +53,7 @@ void RookFigure::move() noexcept {
         if (newCoordinate == current_column) {
           break;
         }
+
         if (!square_->chessboard()->squares()->at(current_row)[newCoordinate].isEmpty()) {
           break;
         }
@@ -59,12 +62,6 @@ void RookFigure::move() noexcept {
         break;
      }
   }
-}
-
-void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
-  square_->removeFigure();
-  square_ = &square_->chessboard()->squares()->at(row)[col];
-  square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this());
 }
 
 void RookFigure::startRandomMove(int count) noexcept {
@@ -76,6 +73,18 @@ void RookFigure::startRandomMove(int count) noexcept {
     --count;
     std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
   }
+}
+
+bool RookFigure::pathIsClear_(const uint8_t row, const uint8_t col) const noexcept {
+  const auto current_column = square_->coordinates()->column();
+  const auto current_row    = square_->coordinates()->row();
+
+}
+
+void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
+  square_->removeFigure();
+  square_ = &square_->chessboard()->squares()->at(row)[col];
+  square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this());
 }
 
 } // namespace crazy_chess_towers

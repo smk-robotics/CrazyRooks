@@ -2,7 +2,7 @@
 
 namespace crazy_rooks {
 
-uint8_t AbstractFigure::id_ = 0;
+uint8_t AbstractFigure::totalFiguresID_ = 0;
 
 uint8_t AbstractFigure::id() const noexcept {
   return id_;
