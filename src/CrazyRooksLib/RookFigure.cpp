@@ -4,8 +4,6 @@
 #include <thread>
 #include <mutex>
 
-#include <iostream>
-
 namespace crazy_rooks {
 
 std::mutex boardMutex;
