@@ -32,6 +32,7 @@ public:
   Chessboard();
   bool addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   void drawBoard() const noexcept;
+  void startRandomMove(const uint8_t movesNumber) noexcept;
   SquaresArray* squares() noexcept;
   FiguresSet* figures() noexcept;
 

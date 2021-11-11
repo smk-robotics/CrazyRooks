@@ -10,6 +10,8 @@
 #include "Chessboard.h"
 #include <ctime>
 #include <iostream>
+#include <thread>
+#include <vector>
 
 namespace crazy_rooks {
 
@@ -35,14 +37,6 @@ bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noe
   return true;
 }
 
-SquaresArray* Chessboard::squares() noexcept {
-  return &squares_;
-}
-
-FiguresSet* Chessboard::figures() noexcept {
-  return &figures_;
-}
-
 void Chessboard::drawBoard() const noexcept {
   std::cout << "\033c" << std::endl; // Clear console.
   std::cout << "   A  B  C  D  E  F  G  H " << std::endl;
@@ -54,6 +48,25 @@ void Chessboard::drawBoard() const noexcept {
     std::cout << " " << CHESS_BOARD_HEIGHT - row << std::endl;
   }
   std::cout << "   A  B  C  D  E  F  G  H " << std::endl;
+}
+
+void Chessboard::startRandomMove(const uint8_t movesNumber) noexcept {
+  std::vector<std::thread> threads;
+  threads.reserve(7);
+  for (auto &figure : figures_) {
+    threads.push_back(std::thread(figure));
+  }
+   for (auto &thread : threads) {
+    thread.join();
+  }
+}
+
+SquaresArray* Chessboard::squares() noexcept {
+  return &squares_;
+}
+
+FiguresSet* Chessboard::figures() noexcept {
+  return &figures_;
 }
 
 } // namespace crazy_chess_towers

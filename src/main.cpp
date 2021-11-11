@@ -10,24 +10,24 @@ constexpr uint8_t MOVES_NUMBER = 50;
 
 int main() {
   Chessboard chessboard;
-  std::vector<std::thread> threads;
-  threads.reserve(FIGURES_NUMBER);
-
+  
   for (auto i = 0; i < FIGURES_NUMBER; ++i) {
     uint8_t c = std::rand() % 8;
     uint8_t r  = std::rand() % 8;
     chessboard.addFigure(std::make_shared<RookFigure>(&chessboard.squares()->at(c)[r]));
   }
 
-  chessboard.drawBoard();
+  std::vector<std::thread> threads;
+  threads.reserve(7);
 
-  // for (auto &figure : *chessboard.figures()) {
-    // threads.emplace_back(std::thread(figure->startRandomMove(), MOVES_NUMBER);
-  // }
+  for (auto &figure : *chessboard.figures()) {
+    auto th = std::thread(&AbstractFigure::startRandomMove, *figure, MOVES_NUMBER);
+    threads.emplace_back(th);
+  }
 
-  // for (auto &thread : threads) {
-    // thread.join();
-  // }
+  for (auto &thread : threads) {
+    thread.join();
+  }
   
   return 0;
 }
