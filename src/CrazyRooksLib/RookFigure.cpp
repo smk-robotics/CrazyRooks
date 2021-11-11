@@ -1,7 +1,6 @@
 #include "RookFigure.h"
 #include "Chessboard.h"
 #include <chrono>
-#include <ctime>
 #include <iostream>
 #include <thread>
 
@@ -26,7 +25,6 @@ RookFigure::RookFigure(Square *square) {
   type_ = FigureType::TOWER;
   figureSymbol_ = 'X';
   ++id_;
-  std::srand(std::time(nullptr));
 }
 
 void RookFigure::move() noexcept {
@@ -73,6 +71,7 @@ void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
 void RookFigure::startRandomMove(int count) noexcept {
   while (count > 0) {
     move();
+    square_->chessboard()->drawBoard();
     --count;
   }
 }

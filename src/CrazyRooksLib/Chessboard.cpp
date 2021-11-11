@@ -8,6 +8,7 @@
  */
 #include "AbstractFigure.h"
 #include "Chessboard.h"
+#include <ctime>
 #include <iostream>
 
 namespace crazy_rooks {
@@ -18,6 +19,7 @@ Chessboard::Chessboard() {
       squares_.at(row)[col] = Square(this);
     }
   }
+  std::srand(std::time(nullptr));
 }
 
 bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
@@ -42,6 +44,7 @@ FiguresSet* Chessboard::figures() noexcept {
 }
 
 void Chessboard::drawBoard() const noexcept {
+  std::cout << "\033c" << std::endl; // Clear console.
   std::cout << "   A  B  C  D  E  F  G  H " << std::endl;
   for (auto row = 0; row < CHESS_BOARD_WIDTH; ++row) {
     std::cout << CHESS_BOARD_HEIGHT - row << " ";
