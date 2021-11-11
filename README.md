@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/smk-robotics/CrazyRooks.svg?branch=develop)](https://travis-ci.com/github/smk-robotics/CrazyRooks)
 # CrazyRooks
 
 Repository with simple multithreading moving crazy chess rooks console 
