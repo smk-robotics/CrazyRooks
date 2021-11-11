@@ -60,6 +60,5 @@ int main() {
   }
 
   writeCoordsToFile(figures, "Finish figures coordinates [id, column, row]:");
-  chessboard.drawBoard();
   return 0;
 }
