@@ -24,18 +24,14 @@ bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noe
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. No figure provided!" << std::endl;
     return false;
   }
-  std::cout << "[INFO][Chessboard]: figurePtr pointer - [OK]" << std::endl;
   if (figures_.find(figurePtr) != figures_.end()) {
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Duplicate figure id." << std::endl;
     return false;
   }
-  std::cout << "[INFO][Chessboard]: Unique check - [OK]" << std::endl;
-  std::cout << "[INFO][Chessboard]: figurePtr->square() == " << figurePtr->square() << std::endl;
   if (!figurePtr->square()->setFigure(figurePtr)) {
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
     return false;
   }
-  std::cout << "[INFO][Chessboard]: Set figure - [OK]" << std::endl;
   figures_.emplace(figurePtr);
   return true;
 }
