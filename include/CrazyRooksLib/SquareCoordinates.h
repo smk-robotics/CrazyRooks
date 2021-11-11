@@ -11,6 +11,10 @@
 #include <cstdint>
 
 namespace crazy_rooks {
+
+constexpr uint8_t CHESS_BOARD_WIDTH  = 8;
+constexpr uint8_t CHESS_BOARD_HEIGHT = 8;
+
 /**
  * @brief Class for check and store single chess boards square coordinates. 
  */

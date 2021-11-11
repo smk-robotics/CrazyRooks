@@ -9,10 +9,6 @@
 
 #include "SquareCoordinates.h"
 #include "AbstractFigure.h"
-#include <memory>
-
-constexpr uint8_t CHESS_BOARD_WIDTH  = 8;
-constexpr uint8_t CHESS_BOARD_HEIGHT = 8;
 
 namespace crazy_rooks {
 /**

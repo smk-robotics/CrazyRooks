@@ -15,12 +15,6 @@ namespace crazy_rooks {
 
 #define FiguresSet std::unordered_set<std::shared_ptr<AbstractFigure>, AbstractFigure::FigureHashFunction>
 #define SquaresArray std::array<std::array<Square, CHESS_BOARD_WIDTH>, CHESS_BOARD_HEIGHT>
-
-/**
- * @brief Forward declaraion for AbstractFigure class to resolve headers 
- * circular dependency problem.
- */
-class AbstractFigure;
 /**
  * @brief Chessboar class.
  */
@@ -32,7 +26,6 @@ public:
   Chessboard();
   bool addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept;
   void drawBoard() const noexcept;
-  void startRandomMove(const uint8_t movesNumber) noexcept;
   SquaresArray* squares() noexcept;
   FiguresSet* figures() noexcept;
 

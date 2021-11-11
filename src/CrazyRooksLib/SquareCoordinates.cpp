@@ -8,9 +8,6 @@
 #include "SquareCoordinates.h"
 #include <stdexcept>
 
-constexpr uint8_t CHESS_BOARD_WIDTH  = 8;
-constexpr uint8_t CHESS_BOARD_HEIGHT = 8;
-
 namespace crazy_rooks {
 
 SquareCoordinates::SquareCoordinates(const uint8_t row, const uint8_t col) {

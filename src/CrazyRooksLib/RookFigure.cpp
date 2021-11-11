@@ -4,9 +4,9 @@
 #include <iostream>
 #include <thread>
 
-std::mutex boardMutex;
-
 namespace crazy_rooks {
+
+std::mutex boardMutex;
 
 namespace {
 
@@ -21,11 +21,11 @@ enum class MoveDirection {
 
 RookFigure::RookFigure(Square *square) {
   if (!square->isEmpty()) {
-    std::cerr << "[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty." << std::endl;
+    std::invalid_argument("[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty.");
   }
   square_ = square;
-  type_ = FigureType::TOWER;
   figureSymbol_ = 'X';
+  type_ = FigureType::TOWER;
   ++id_;
 }
 

@@ -4,14 +4,10 @@
  * @brief Full chessboard class implementation.
  * @date 2021-11-07
  * @copyright GNU General Public License v3.0.
- * 
  */
 #include "AbstractFigure.h"
 #include "Chessboard.h"
-#include <ctime>
 #include <iostream>
-#include <thread>
-#include <vector>
 
 namespace crazy_rooks {
 
@@ -21,7 +17,6 @@ Chessboard::Chessboard() {
       squares_.at(row)[col] = Square(this);
     }
   }
-  std::srand(std::time(nullptr));
 }
 
 bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
@@ -48,17 +43,6 @@ void Chessboard::drawBoard() const noexcept {
     std::cout << " " << CHESS_BOARD_HEIGHT - row << std::endl;
   }
   std::cout << "   A  B  C  D  E  F  G  H " << std::endl;
-}
-
-void Chessboard::startRandomMove(const uint8_t movesNumber) noexcept {
-  // std::vector<std::thread> threads;
-  // threads.reserve(7);
-  // for (auto &figure : figures_) {
-  //   threads.push_back(std::thread(figure));
-  // }
-  //  for (auto &thread : threads) {
-  //   thread.join();
-  // }
 }
 
 SquaresArray* Chessboard::squares() noexcept {

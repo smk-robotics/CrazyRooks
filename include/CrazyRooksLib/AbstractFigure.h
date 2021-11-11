@@ -27,19 +27,19 @@ public:
   FigureType type() const noexcept;
   uint8_t id() const noexcept;
   Square* square() const noexcept;
-  virtual ~AbstractFigure() = default;
   friend bool operator==(const std::shared_ptr<AbstractFigure> &lhs, const std::shared_ptr<AbstractFigure> &rhs);
   struct FigureHashFunction {
     size_t operator()(const std::shared_ptr<AbstractFigure> &figure) const {
       return std::hash<int>()(int(figure->id()));
     }
   };
+  virtual ~AbstractFigure() = default;
+  
 protected:
   static uint8_t id_;
   char figureSymbol_ = ' ';
   FigureType type_ = FigureType::NONE;
   Square* square_;
-  mutable std::mutex board_mutex_;
 };
 
 } // namespace crazy_chess_towers
