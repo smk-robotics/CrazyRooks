@@ -32,10 +32,10 @@ int main() {
   std::vector<std::shared_ptr<AbstractFigure>> figures;
   std::srand(std::time(nullptr));
   while (chessboard.figures()->size() < FIGURES_NUMBER) {
-    uint8_t c = std::rand() % 8;
-    uint8_t r = std::rand() % 8;
+    uint8_t randomCol = std::rand() % CHESS_BOARD_WIDTH;
+    uint8_t randomRow = std::rand() % CHESS_BOARD_HEIGHT;
     try {
-      auto rook = std::make_shared<RookFigure>(&chessboard.squares()->at(c)[r]);
+      auto rook = std::make_shared<RookFigure>(&chessboard.squares()->at(randomCol)[randomRow]);
       if (chessboard.addFigure(rook)) {
         figures.emplace_back(rook);
       }
@@ -44,7 +44,7 @@ int main() {
     }
   }
   remove(OUTPUT_FILE);
-  writeCoordsToFile(figures, "Start figures coordinates:");
+  writeCoordsToFile(figures, "Start figures coordinates [id, column, row]:");
 
   std::vector<std::thread> threads;
   threads.reserve(FIGURES_NUMBER);
@@ -57,6 +57,6 @@ int main() {
     thread.join();
   }
 
-  writeCoordsToFile(figures, "Finish figures coordinates:");
+  writeCoordsToFile(figures, "Finish figures coordinates [id, column, row]:");
   return 0;
 }
