@@ -5,7 +5,7 @@
 
 using namespace crazy_rooks;
 
-constexpr uint8_t FIGURES_NUMBER = 7;
+constexpr uint8_t FIGURES_NUMBER = 8;
 constexpr uint8_t MOVES_NUMBER = 50;
 
 int main() {
@@ -18,16 +18,15 @@ int main() {
   }
 
   std::vector<std::thread> threads;
-  threads.reserve(7);
+  threads.reserve(FIGURES_NUMBER);
 
   for (auto &figure : *chessboard.figures()) {
-    auto th = std::thread(&AbstractFigure::startRandomMove, *figure, MOVES_NUMBER);
-    threads.emplace_back(th);
+    threads.push_back(std::thread(&AbstractFigure::startRandomMove, figure, MOVES_NUMBER));
   }
 
   for (auto &thread : threads) {
     thread.join();
   }
-  
+
   return 0;
 }

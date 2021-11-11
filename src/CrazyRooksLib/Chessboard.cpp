@@ -51,14 +51,14 @@ void Chessboard::drawBoard() const noexcept {
 }
 
 void Chessboard::startRandomMove(const uint8_t movesNumber) noexcept {
-  std::vector<std::thread> threads;
-  threads.reserve(7);
-  for (auto &figure : figures_) {
-    threads.push_back(std::thread(figure));
-  }
-   for (auto &thread : threads) {
-    thread.join();
-  }
+  // std::vector<std::thread> threads;
+  // threads.reserve(7);
+  // for (auto &figure : figures_) {
+  //   threads.push_back(std::thread(figure));
+  // }
+  //  for (auto &thread : threads) {
+  //   thread.join();
+  // }
 }
 
 SquaresArray* Chessboard::squares() noexcept {

@@ -8,6 +8,11 @@ add_library(${CRAZY_ROOKS_LIB} SHARED
   ${CRAZY_ROOKS_LIB_SRC}
 )
 
+target_link_libraries(${CRAZY_ROOKS_LIB} 
+  PUBLIC
+    pthread
+)
+
 target_include_directories(${CRAZY_ROOKS_LIB}
   PUBLIC
     include/${CRAZY_ROOKS_LIB}

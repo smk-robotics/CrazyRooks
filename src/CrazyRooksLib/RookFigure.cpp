@@ -4,6 +4,8 @@
 #include <iostream>
 #include <thread>
 
+std::mutex boardMutex;
+
 namespace crazy_rooks {
 
 namespace {
@@ -40,7 +42,6 @@ void RookFigure::move() noexcept {
           break;
         }
         if (!square_->chessboard()->squares()->at(newCoordinate)[current_column].isEmpty()) {
-          std::this_thread::sleep_for(std::chrono::milliseconds(BLOCK_DELAY));
           break;
         }
         setupSquare_(newCoordinate, current_column);
@@ -51,7 +52,6 @@ void RookFigure::move() noexcept {
           break;
         }
         if (!square_->chessboard()->squares()->at(current_row)[newCoordinate].isEmpty()) {
-          std::this_thread::sleep_for(std::chrono::milliseconds(BLOCK_DELAY));
           break;
         }
         setupSquare_(current_row, newCoordinate);
@@ -59,7 +59,6 @@ void RookFigure::move() noexcept {
         break;
      }
   }
-  std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
 }
 
 void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
@@ -71,8 +70,11 @@ void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
 void RookFigure::startRandomMove(int count) noexcept {
   while (count > 0) {
     move();
+    boardMutex.lock();
     square_->chessboard()->drawBoard();
+    boardMutex.unlock();
     --count;
+    std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
   }
 }
 

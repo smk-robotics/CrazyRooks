@@ -1,6 +1,7 @@
 #pragma once 
 
 #include <memory>
+#include <mutex>
 
 namespace crazy_rooks {
 
@@ -38,6 +39,7 @@ protected:
   char figureSymbol_ = ' ';
   FigureType type_ = FigureType::NONE;
   Square* square_;
+  mutable std::mutex board_mutex_;
 };
 
 } // namespace crazy_chess_towers
