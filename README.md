@@ -27,6 +27,13 @@ will be also located if build directory.
 
 ## Testing
 
+Before you can build and run tests you will need to build third-party gtest library:
+
+```
+cd third-party
+./build_third_party.sh
+```
+
 If you want to run tests, you need to build packages with `BUILD_TESTS=ON` flag 
 and run `ctest`: 
 
