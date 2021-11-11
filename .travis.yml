@@ -1,9 +1,8 @@
 sudo: required
 dist: bionic
 language: cpp
+compiler: gcc
 
-compiler:
-  - gcc
 
 notifications:
   email:
@@ -11,7 +10,7 @@ notifications:
     on_failure: always
 
 script:
-  - ${TRAVIS_BUILD_DIR}
+  - mkdir build && cd build
   - cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTS=ON ..
   - cmake --build .
   - ctest --output-on-failure --verbose
