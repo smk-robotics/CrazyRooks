@@ -7,8 +7,8 @@
  */
 #pragma once
 
-#include "SquareCoordinates.h"
 #include "AbstractFigure.h"
+#include "SquareCoordinates.h"
 
 namespace crazy_rooks {
 /**
@@ -19,9 +19,11 @@ enum class SquareColor {
   BLACK = 0,
   WHITE = 1
 };
-
+/**
+ * @brief Forward declaraion for Chessboard class to resolve headers circular 
+ * dependency.
+ */
 class Chessboard;
-
 /**
  * @brief Single chessboard square class.
  */
@@ -31,6 +33,10 @@ public:
  * @brief Constructor for new Square object.
  */
   Square() = default;
+  /**
+   * @brief Constructor for new Square object.
+   * @param board Pointer to chessboard.
+   */
   Square(Chessboard *board);
   /**
    * @brief Checks that square is no occupied by any figure.
@@ -55,6 +61,10 @@ public:
    * @return SquareColor Color of square - BLACK or WHITE.
    */
   SquareColor color() const noexcept;
+  /**
+   * @brief Getter for chessboard.
+   * @return Chessboard* Pointer to chessboard.
+   */
   Chessboard* chessboard() const noexcept;
   /**
    * @brief Getter for square coordinates on chessboard.
@@ -77,11 +87,29 @@ public:
   friend std::ostream& operator<<(std::ostream &os, const Square &square);
   
 private:
+  /**
+   * @brief Square row coordinate from left side of the chessboard {0..7}.
+   */
   static uint8_t row_;
+  /**
+   * @brief Square column coordinate from top of the chessboard {0..7}.
+   */
   static uint8_t col_;
+  /**
+   * @brief Color of the square.
+   */
   SquareColor color_ = SquareColor::NONE;
+  /**
+   * @brief Chessboard which contains this square.
+   */
   Chessboard *chessboard_;
+  /**
+   * @brief Coordinates of this square.
+   */
   std::shared_ptr<SquareCoordinates> coordinates_;
+  /**
+   * @brief Figure that currently occupied this square.
+   */
   std::shared_ptr<AbstractFigure> figure_;
 };
 

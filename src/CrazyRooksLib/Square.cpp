@@ -45,8 +45,12 @@ bool Square::isEmpty() const noexcept {
 }
 
 bool Square::setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
-  if (figure_ != nullptr) {
-    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. Square already has a figure." << std::endl;
+  if (figure_.get() != nullptr) {
+    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. Square already has a figure!" << std::endl;
+    return false;
+  }
+  if (figurePtr.get() == nullptr) {
+    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. No figure provided!." << std::endl;
     return false;
   }
   figure_ = figurePtr;
@@ -96,7 +100,8 @@ std::ostream& operator<<(std::ostream &os, const Square &square) {
     default:
       throw std::invalid_argument("[ERROR][Square] - Square color is not set!");
       break;
-  }  
+  }
+  return os;
 }
 
 } // namespace crazy_chess_towers

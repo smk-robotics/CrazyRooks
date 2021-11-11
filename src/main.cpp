@@ -15,7 +15,7 @@ constexpr uint8_t FIGURES_NUMBER = 8;
 constexpr uint8_t MOVES_NUMBER = 50;
 constexpr const char* OUTPUT_FILE = "coordinates.csv";
 
-bool writeCoordsToFile(const std::vector<std::shared_ptr<AbstractFigure>> &figures, const std::string &title) {
+void writeCoordsToFile(const std::vector<std::shared_ptr<AbstractFigure>> &figures, const std::string &title) {
   std::ofstream fileWithCoords;
   fileWithCoords.open(OUTPUT_FILE, std::ios::app) ;
   fileWithCoords << title << "\n";
@@ -31,6 +31,7 @@ int main() {
   Chessboard chessboard;
   std::vector<std::shared_ptr<AbstractFigure>> figures;
   std::srand(std::time(nullptr));
+
   while (chessboard.figures()->size() < FIGURES_NUMBER) {
     uint8_t randomCol = std::rand() % CHESS_BOARD_WIDTH;
     uint8_t randomRow = std::rand() % CHESS_BOARD_HEIGHT;
@@ -43,6 +44,7 @@ int main() {
       std::cerr << e.what() << std::endl;
     }
   }
+
   remove(OUTPUT_FILE);
   writeCoordsToFile(figures, "Start figures coordinates [id, column, row]:");
 
@@ -58,5 +60,6 @@ int main() {
   }
 
   writeCoordsToFile(figures, "Finish figures coordinates [id, column, row]:");
+  chessboard.drawBoard();
   return 0;
 }

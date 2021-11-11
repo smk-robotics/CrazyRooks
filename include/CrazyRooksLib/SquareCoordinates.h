@@ -2,7 +2,6 @@
  * @file SquareCoordinates.h
  * @author Kirill Smirnov <smk.robotics@gmail.com>
  * @brief Single chessboard square coordinates class declaration.
- * @version 0.1
  * @date 2021-11-09
  * @copyright GNU General Public License v3.0.
  */

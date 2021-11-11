@@ -2,6 +2,7 @@
 #include "Chessboard.h"
 #include <chrono>
 #include <thread>
+#include <mutex>
 
 namespace crazy_rooks {
 
@@ -35,30 +36,45 @@ void RookFigure::move() noexcept {
   bool moveDone = false;
   while (!moveDone) {
     MoveDirection direction = static_cast<MoveDirection>(std::rand() % 2);
-    uint8_t newCoordinate = std::rand() % 8;
+    uint8_t targetCoordinate = std::rand() % 8;
+    auto timeLeft = BLOCK_DELAY;
     switch (direction) {
       case MoveDirection::VERTICAL:
-        if (newCoordinate == current_row) {
-          break;
-        }
-        
-        if (!square_->chessboard()->squares()->at(newCoordinate)[current_column].isEmpty()) {
+        if (targetCoordinate == current_row) {
           break;
         }
 
-        setupSquare_(newCoordinate, current_column);
-        moveDone = true;
+        while (!verticalPathClear_(targetCoordinate) && (timeLeft > 0)) {
+          std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
+          timeLeft -= MOVING_DELAY;
+        }
+
+        if (timeLeft < 0) {
+          break;
+        }
+
+        if (setupSquare_(targetCoordinate, current_column)) {
+          moveDone = true;
+        }
         break;
       case MoveDirection::HORIZONTAL:
-        if (newCoordinate == current_column) {
+        if (targetCoordinate == current_column) {
           break;
         }
 
-        if (!square_->chessboard()->squares()->at(current_row)[newCoordinate].isEmpty()) {
+        auto timeLeft = BLOCK_DELAY;
+        while (!horizontalPathClear_(targetCoordinate) && (timeLeft > 0)) {
+          std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
+          timeLeft -= MOVING_DELAY;
+        }
+
+        if (timeLeft < 0) {
           break;
         }
-        setupSquare_(current_row, newCoordinate);
-        moveDone = true;
+
+        if (setupSquare_(current_row, targetCoordinate)) {
+          moveDone = true;
+        }
         break;
      }
   }
@@ -67,24 +83,46 @@ void RookFigure::move() noexcept {
 void RookFigure::startRandomMove(int count) noexcept {
   while (count > 0) {
     move();
-    boardMutex.lock();
-    square_->chessboard()->drawBoard();
-    boardMutex.unlock();
+    {
+      std::lock_guard<std::mutex> guard(boardMutex);
+      square_->chessboard()->drawBoard();
+    }
     --count;
     std::this_thread::sleep_for(std::chrono::milliseconds(MOVING_DELAY));
   }
 }
 
-bool RookFigure::pathIsClear_(const uint8_t row, const uint8_t col) const noexcept {
-  const auto current_column = square_->coordinates()->column();
+bool RookFigure::horizontalPathClear_(const uint8_t target) const noexcept {
   const auto current_row    = square_->coordinates()->row();
-
+  auto diff = square_->coordinates()->column() - target; 
+  auto direction = diff > 0 ? -1 : 1;
+  for (auto i = 0; i < abs(diff); ++i) {
+    std::lock_guard<std::mutex> guard(boardMutex);
+    if (!square_->chessboard()->squares()->at(current_row)[target - i * direction].isEmpty()) {
+      return false;
+    }
+  }
+  return true;
 }
 
-void RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
+bool RookFigure::verticalPathClear_(const uint8_t target) const noexcept {
+  const auto current_column = square_->coordinates()->column();
+  auto diff = square_->coordinates()->row() - target;
+  auto direction = diff > 0 ? -1 : 1;
+  for (auto i = 0; i < abs(diff); ++i) {
+    std::lock_guard<std::mutex> guard(boardMutex);
+    if (!square_->chessboard()->squares()->at(target - i * direction)[current_column].isEmpty()) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
+  std::lock_guard<std::mutex> guard(boardMutex);
   square_->removeFigure();
   square_ = &square_->chessboard()->squares()->at(row)[col];
-  square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this());
+  return square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this());
 }
 
 } // namespace crazy_chess_towers
