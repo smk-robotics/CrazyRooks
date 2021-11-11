@@ -9,9 +9,10 @@ namespace crazy_rooks {
 std::mutex boardMutex;
 
 namespace {
-
+  
 constexpr int MOVING_DELAY = 200;  // [milliseconds]
 constexpr int BLOCK_DELAY  = 5000; // [milliseconds]
+
 } // namespace
 
 enum class MoveDirection {
@@ -26,7 +27,7 @@ RookFigure::RookFigure(Square *square) {
     type_ = FigureType::TOWER;
     id_ = ++totalFiguresID_;
   } else {
-    std::logic_error("[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty.");
+    throw std::logic_error("[ERROR][RookFigure]: Adding figure to chessboard - [FAIL]. Square is not empty.");
   }
 }
 
@@ -120,9 +121,12 @@ bool RookFigure::verticalPathClear_(const uint8_t target) const noexcept {
 
 bool RookFigure::setupSquare_(const uint8_t row, const uint8_t col) noexcept {
   std::lock_guard<std::mutex> guard(boardMutex);
+  if (!square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this())) {
+    return false;
+  }
   square_->removeFigure();
-  square_ = &square_->chessboard()->squares()->at(row)[col];
-  return square_->chessboard()->squares()->at(row)[col].setFigure(shared_from_this());
+  square_ = &square_->chessboard()->squares()->at(row)[col]; 
+  return true;
 }
 
 } // namespace crazy_chess_towers

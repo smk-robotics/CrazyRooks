@@ -28,7 +28,7 @@ bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noe
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Duplicate figure id." << std::endl;
     return false;
   }
-  if (figurePtr->square() == nullptr) {
+  if (!figurePtr->square()->setFigure(figurePtr)) {
     std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
     return false;
   }

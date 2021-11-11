@@ -4,7 +4,6 @@
 #include <fstream>
 #include <iostream>
 #include <thread>
-#include <stdexcept>
 #include <stdio.h>
 #include <vector>
 
@@ -60,6 +59,5 @@ int main() {
   }
 
   writeCoordsToFile(figures, "Finish figures coordinates [id, column, row]:");
-  chessboard.drawBoard();
   return 0;
 }

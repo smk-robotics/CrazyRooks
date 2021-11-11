@@ -45,7 +45,7 @@ TEST(ChessBoardTest, AddFigureToOccupiedSquareTest) {
   ASSERT_TRUE(board.addFigure(std::make_shared<RookFigure>(&board.squares()->at(0)[0])));
   ASSERT_EQ(board.figures()->size(), 1);
   ASSERT_FALSE(board.squares()->at(0)[0].isEmpty());
-  ASSERT_FALSE(board.addFigure(std::make_shared<RookFigure>(&board.squares()->at(0)[0])));
+  ASSERT_THROW(board.addFigure(std::make_shared<RookFigure>(&board.squares()->at(0)[0])), std::logic_error);
   ASSERT_EQ(board.figures()->size(), 1);
 }
 
