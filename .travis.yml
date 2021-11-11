@@ -10,7 +10,6 @@ install:
   - cmake --build . --target all
 
 script:
-  script:
   - export GTEST_COLOR=1
   - ctest --output-on-failure --verbose
 
