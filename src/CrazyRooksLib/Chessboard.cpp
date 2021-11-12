@@ -21,15 +21,12 @@ Chessboard::Chessboard() {
 
 bool Chessboard::addFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
   if (figurePtr.get() == nullptr) {
-    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. No figure provided!" << std::endl;
     return false;
   }
   if (figures_.find(figurePtr) != figures_.end()) {
-    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Duplicate figure id." << std::endl;
     return false;
   }
   if (!figurePtr->square()->setFigure(figurePtr)) {
-    std::cerr << "[ERROR][Chessboard]: Adding figure to chessboard - [FAIL]. Can't set figure to square." << std::endl;
     return false;
   }
   figures_.emplace(figurePtr);
