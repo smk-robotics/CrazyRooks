@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/smk-robotics/CrazyRooks.svg?branch=develop)](https://travis-ci.com/github/smk-robotics/CrazyRooks)
 # CrazyRooks
 
 Repository with simple multithreading moving crazy chess rooks console 
@@ -25,6 +26,13 @@ After finish you can check rooks coordinates if **coordinates.csv** file that
 will be also located if build directory.
 
 ## Testing
+
+Before you can build and run tests you will need to build third-party gtest library:
+
+```
+cd third-party
+./build_third_party.sh
+```
 
 If you want to run tests, you need to build packages with `BUILD_TESTS=ON` flag 
 and run `ctest`: 

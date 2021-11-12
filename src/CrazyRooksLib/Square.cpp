@@ -46,11 +46,9 @@ bool Square::isEmpty() const noexcept {
 
 bool Square::setFigure(const std::shared_ptr<AbstractFigure> &figurePtr) noexcept {
   if (figure_.get() != nullptr) {
-    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. Square already has a figure!" << std::endl;
     return false;
   }
   if (figurePtr.get() == nullptr) {
-    std::cerr << "[ERROR][Square]: Setting figure to square - [FAIL]. No figure provided!." << std::endl;
     return false;
   }
   figure_ = figurePtr;
